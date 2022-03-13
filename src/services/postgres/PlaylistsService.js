@@ -24,22 +24,11 @@ class PlaylistsService {
   }
 
   async getPlaylists(owner) {
-    // TODO benerin query
     const query = {
-      // Backup Query
-      /* text: `SELECT playlists.id, playlists.name FROM playlists
-      LEFT JOIN collaborations ON playlists.id = collaborations.playlistid
-      WHERE playlists.owner = $1 OR collaborations.userid = $1
-      GROUP BY playlists.id`,
-      */
-      /*
-      text: `SELECT playlists.id, playlists.name FROM playlists
+      text: `SELECT playlists.id, playlists.name, users.username FROM playlists
       LEFT JOIN collaborations ON playlists.id = collaborations.playlistid
       LEFT JOIN users ON playlists.owner = users.id
-      WHERE playlists.owner = $1 OR collaborations.userid = $1
-      GROUP BY playlists.id`,
-      */
-      text: `SELECT username FROM users WHERE id = $1`,
+      WHERE playlists.owner = $1 OR collaborations.userid = $1`,
       values: [owner],
     };
     const result = await this._pool.query(query);
@@ -63,6 +52,8 @@ class PlaylistsService {
       text: 'INSERT INTO playlists_songs (id, playlistid, songid) VALUES ($1, $2, $3) RETURNING id',
       values: [id, playlistId, songId],
     };
+
+    // TODO: not found error if the song is not exist.
 
     const result = await this._pool.query(query);
 
