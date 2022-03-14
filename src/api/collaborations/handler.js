@@ -2,7 +2,7 @@ const ClientError = require('../../exceptions/ClientError');
 
 class ColaborationsHandler {
   constructor(collaborationsService, playlistsService, validator) {
-    this.collaborationsService = collaborationsService;
+    this._collaborationsService = collaborationsService;
     this._playlistsService = playlistsService;
     this._validator = validator;
 
@@ -22,7 +22,7 @@ class ColaborationsHandler {
         credentialId,
       );
 
-      const collaborationId = await this.collaborationsService.addColaboration(
+      const collaborationId = await this._collaborationsService.addColaboration(
         playlistId,
         userId,
       );
@@ -67,7 +67,7 @@ class ColaborationsHandler {
         playlistId,
         credentialId,
       );
-      await this.collaborationsService.deleteCollaboration(playlistId, userId);
+      await this._collaborationsService.deleteCollaboration(playlistId, userId);
 
       return {
         status: 'success',
