@@ -5,7 +5,7 @@ const PostPlaylistSchema = Joi.object({
 });
 
 const PostSongToPlaylistSchema = Joi.object({
-  songid: Joi.string().required(),
+  songId: Joi.string().required(),
 });
 
 module.exports = { PostPlaylistSchema, PostSongToPlaylistSchema };

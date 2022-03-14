@@ -2,9 +2,13 @@ const ClientError = require('../../exceptions/ClientError');
 
 class ColaborationsHandler {
   constructor(collaborationsService, playlistsService, validator) {
-    this._collaborationsService = collaborationsService;
+    this.collaborationsService = collaborationsService;
     this._playlistsService = playlistsService;
     this._validator = validator;
+
+    this.postCollaborationHandler = this.postCollaborationHandler.bind(this);
+    this.deleteCollaborationHandler =
+      this.deleteCollaborationHandler.bind(this);
   }
 
   async postCollaborationHandler(request, h) {
@@ -17,7 +21,8 @@ class ColaborationsHandler {
         playlistId,
         credentialId,
       );
-      const collaborationId = await this._collaborationsService.addColaboration(
+
+      const collaborationId = await this.collaborationsService.addColaboration(
         playlistId,
         userId,
       );
@@ -62,7 +67,7 @@ class ColaborationsHandler {
         playlistId,
         credentialId,
       );
-      await this._collaborationsService.deleteCollaboration(playlistId, userId);
+      await this.collaborationsService.deleteCollaboration(playlistId, userId);
 
       return {
         status: 'success',
